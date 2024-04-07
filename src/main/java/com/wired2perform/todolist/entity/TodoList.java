@@ -7,6 +7,7 @@
 
 package com.wired2perform.todolist.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -16,6 +17,7 @@ import java.util.List;
 
 @Entity
 @Data
+@Table(name = "to_do_list")
 public class TodoList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +25,7 @@ public class TodoList {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore // Add this annotation to prevent infinite recursion
     private UserAccount user;
 
     @ElementCollection
@@ -31,4 +34,15 @@ public class TodoList {
 
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
+
+    @PrePersist
+    protected void onCreate() {
+        createdDate = LocalDateTime.now();
+        updatedDate = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedDate = LocalDateTime.now();
+    }
 }

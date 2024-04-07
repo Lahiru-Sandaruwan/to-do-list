@@ -7,16 +7,14 @@
 
 package com.wired2perform.todolist.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Data
-@NoArgsConstructor
+@Table(name = "user_account")
 public class UserAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +26,7 @@ public class UserAccount {
     private String telephoneNumber;
     private int age;
 
-    public UserAccount(String email, String password) {
-    }
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<TodoList> todoLists;
+
 }
