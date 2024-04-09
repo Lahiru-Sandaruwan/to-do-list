@@ -9,6 +9,7 @@ package com.wired2perform.todolist.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -21,6 +22,7 @@ import java.util.List;
 public class TodoList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @ManyToOne
@@ -28,11 +30,15 @@ public class TodoList {
     @JsonIgnore // Add this annotation to prevent infinite recursion
     private UserAccount user;
 
-    @ElementCollection
-    //used to manage a collection of values within an entity without the need for a separate table in the database.
+    @ElementCollection//used to manage a collection of values within an entity without the need for a separate table in the database.
+    @Column(name = "todos")
+    @NotEmpty(message = "Todo list cannot be empty")
     private List<String> todos;
 
+    @Column(name = "created_date")
     private LocalDateTime createdDate;
+
+    @Column(name = "updated_date")
     private LocalDateTime updatedDate;
 
     @PrePersist
