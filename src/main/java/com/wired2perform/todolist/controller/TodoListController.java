@@ -65,17 +65,16 @@ public class TodoListController {
     /**
      * Endpoint to update an existing todo list.
      *
-     * @param todoListId The ID of the todo list to be updated.
-     * @param todos      The updated list of todos.
+     * @param todoList      The updated list of todos.
      * @return ResponseEntity containing the updated todo list.
      */
     @PutMapping("/update")
-    public ResponseEntity<TodoList> updateTodoList(@RequestParam("todoListId") Long todoListId, @RequestBody List<String> todos) {
+    public ResponseEntity<TodoList> updateTodoList(@RequestBody TodoList todoList) {
         UserAccount user = userService.getUserFromAuthentication(); // Get authenticated user
         if (user == null) {
             throw new ResourceNotFoundException("User not found");
         }
-        TodoList updatedTodoList = todoListService.updateTodoList(user, todoListId, todos);
+        TodoList updatedTodoList = todoListService.updateTodoList(user, todoList.getId(), todoList.getTodos());
         return new ResponseEntity<>(updatedTodoList, HttpStatus.OK);
     }
 
