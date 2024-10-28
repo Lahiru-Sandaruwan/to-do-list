@@ -1,4 +1,4 @@
-# Wired2Perform Assignment: Spring Boot REST API for Todo List Management
+# Spring Boot REST API for Todo List Management
 
 This project implements a REST API for managing todo lists using Spring Boot. It adheres to recommended coding practices and utilizes the following technologies:
 
